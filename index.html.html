@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generator Poster Basket</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:#F3F1EE;color:#1F1B18}
+.app{display:grid;grid-template-columns:360px 1fr;gap:24px;max-width:1320px;margin:0 auto;padding:24px}
+@media(max-width:900px){.app{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid #E2DDD6;border-radius:12px;padding:20px;align-self:start}
+h1{font-size:20px;margin:0 0 4px}.sub{font-size:13px;color:#6B655E;margin:0 0 16px}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#6B655E;margin:20px 0 8px}
+.seg{display:flex;gap:6px}
+.seg button{flex:1;padding:10px;border:1px solid #D5CFC7;background:#fff;border-radius:8px;font:600 14px Inter;cursor:pointer;color:#1F1B18}
+.seg button.on{background:#C2410C;border-color:#C2410C;color:#fff}
+label.f{display:block;font-size:13px;margin-bottom:10px}
+label.f input[type=text]{display:block;width:100%;margin-top:4px;padding:9px 10px;border:1px solid #D5CFC7;border-radius:8px;font:400 14px Inter}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.up{display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:8px}
+.up span{flex:1}.up input{display:none}
+.up .b{padding:6px 10px;border:1px solid #D5CFC7;border-radius:6px;cursor:pointer;background:#fff;font:600 12px Inter}
+.up .ok{color:#15803D;font-weight:700}
+.dl{width:100%;margin-top:18px;padding:14px;border:0;border-radius:10px;background:#6E1423;color:#fff;font:700 15px Inter;cursor:pointer}
+.dl:disabled{opacity:.6}
+[data-show]{display:none}.result [data-show=result],.matchday [data-show=matchday]{display:block}
+.result .row2[data-show=result],.matchday .row2[data-show=matchday]{display:grid}
+.stage{width:100%;overflow:hidden;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.15);background:#ddd}
+#poster{position:relative;width:1080px;height:1350px;overflow:hidden;background:var(--base);color:var(--text);font-family:'Barlow Condensed',sans-serif;transform-origin:0 0}
+#poster .ph{position:absolute;left:0;top:0;width:100%;height:100%;background-size:cover}
+#poster .fd{position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(180deg,rgb(var(--f)) 0%,rgba(var(--f),.7) 16%,rgba(var(--f),0) 32%,rgba(var(--f),0) 52%,rgba(var(--f),.92) 72%,rgb(var(--f)) 86%)}
+#poster .bar{position:absolute;left:0;width:100%;height:14px;display:flex}
+#poster .bar i{display:block}#poster .bar.t{top:0}#poster .bar.b{bottom:0;flex-direction:row-reverse}
+#poster .in{position:relative;height:100%;padding:54px 64px 44px;display:flex;flex-direction:column;gap:20px}
+#poster .logos{display:flex;justify-content:center;gap:24px}
+#poster .slot{width:96px;height:96px;border-radius:50%;border:2px dashed #6B6B75;display:flex;align-items:center;justify-content:center;text-align:center;font-size:14px;font-weight:600;letter-spacing:1.5px;line-height:1.2;color:#4A4743;background:rgba(255,255,255,.92) center/78% no-repeat}
+#poster .slot.fl{border:0;border-radius:0;background-color:transparent;background-size:contain}
+#poster .hd{text-align:center;height:140px}
+#poster .ev{margin-top:4px;font-size:34px;font-weight:700;letter-spacing:7px;color:var(--acc);text-transform:uppercase;white-space:nowrap;overflow:hidden}
+#poster .ti{font-family:Anton,sans-serif;font-size:90px;line-height:1.05;letter-spacing:3px;text-transform:uppercase}
+#poster .pz{position:relative;flex:1;min-height:0;margin:4px 0}
+#poster .c{position:absolute;width:44px;height:44px;border:0 solid var(--acc)}
+#poster .hint{position:absolute;left:0;top:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;letter-spacing:4px;color:var(--mut)}
+#poster .mid{display:flex;align-items:center;gap:24px;height:84px}
+#poster .mid u{flex:1;height:4px;background:var(--acc)}
+#poster .tag{padding:4px 36px;background:var(--acc);transform:skewX(-10deg)}
+#poster .tag b{display:block;font-family:Anton,sans-serif;font-weight:400;font-size:74px;line-height:1.1;letter-spacing:12px;text-transform:uppercase;color:var(--tag)}
+#poster .slab{height:270px;padding:0 28px;display:flex;justify-content:space-between;align-items:center;background:var(--slab);border-top:6px solid var(--acc)}
+#poster .tm{width:190px;text-align:center}
+#poster .tm .slot{width:150px;height:150px;margin:0 auto;font-size:17px;letter-spacing:2px;border-color:var(--acc)}
+#poster .tm.r .slot{border-color:var(--ring)}
+#poster .tm .nm{margin-top:14px;font-family:Anton,sans-serif;font-size:28px;line-height:1.1;letter-spacing:1px;text-transform:uppercase;color:var(--stext);max-height:62px;overflow:hidden}
+#poster .sc{position:relative;top:-6px;height:150px;display:flex;align-items:center;gap:28px;font-family:Anton,sans-serif;font-size:170px;line-height:1}
+#poster .sc em{font-style:normal;color:var(--acc)}#poster .sc s{width:28px;height:6px;background:var(--mut);text-decoration:none}
+#poster .sc .o{color:var(--stext)}
+#poster .vs{font-size:150px;letter-spacing:6px;color:var(--acc)}
+#poster.md .slab{height:300px}
+#poster.md .tm{width:220px}
+#poster.md .tm .slot{width:180px;height:180px}
+#poster.md .tm .nm{font-size:32px;max-height:70px}
+#poster .info{display:flex;gap:14px;height:78px}
+#poster .info div{min-width:0;padding-top:10px;text-align:center;border:2px solid var(--acc);background:rgba(var(--f),.6)}
+#poster .info small{display:block;font-size:15px;font-weight:700;letter-spacing:3px;color:var(--mut)}
+#poster .info b{display:block;padding:0 8px;font-size:26px;line-height:1.3;font-weight:700;letter-spacing:1px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#poster .meta{text-align:center;font-size:22px;font-weight:600;letter-spacing:4px;color:var(--mut);height:30px;text-transform:uppercase;white-space:nowrap;overflow:hidden}
+#poster .soc{height:72px;text-align:center}
+#poster .ht{font-family:Anton,sans-serif;font-size:30px;letter-spacing:3px;color:var(--acc);height:36px;line-height:36px;white-space:nowrap;overflow:hidden}
+#poster .acs{display:flex;justify-content:center;gap:44px;height:34px}
+#poster .ac{font-size:26px;font-weight:700;letter-spacing:1px;line-height:34px;color:var(--text);white-space:nowrap}
+#poster .sp{display:flex;align-items:center;justify-content:center;gap:20px;height:64px;padding-top:14px;border-top:2px solid var(--line)}
+#poster .sp span{font-size:20px;font-weight:700;letter-spacing:4px;color:var(--mut)}
+#poster .sp .slot{width:190px;height:50px;border-radius:0;font-size:15px;letter-spacing:2px;background-size:contain}
+#poster.exporting .empty,#poster.exporting .hint,#poster.exporting .nosp{visibility:hidden}
+</style>
+</head>
+<body>
+<div class="app result" id="app">
+<div class="panel">
+<h1>Generator Poster Basket</h1>
+<p class="sub">Isi data, unggah logo dan foto, lalu unduh posternya.</p>
+<h2>Jenis poster</h2>
+<div class="seg" id="segType"><button data-v="result" class="on">Hasil Scrimmage</button><button data-v="matchday">Matchday</button></div>
+<h2>Tema</h2>
+<div class="seg" id="segTheme"><button data-v="light" class="on">Terang</button><button data-v="dark">Gelap</button></div>
+<h2>Data</h2>
+<label class="f">Nama event<input type="text" data-k="event"></label>
+<div class="row2"><label class="f">Nama club kamu<input type="text" data-k="me"></label><label class="f">Nama lawan<input type="text" data-k="foe"></label></div>
+<div class="row2" data-show="result"><label class="f">Skor kamu<input type="text" data-k="sm" inputmode="numeric" maxlength="3"></label><label class="f">Skor lawan<input type="text" data-k="sf" inputmode="numeric" maxlength="3"></label></div>
+<label class="f" data-show="matchday">Jam tip-off<input type="text" data-k="time"></label>
+<label class="f">Tanggal<input type="text" data-k="date"></label>
+<label class="f">Lokasi<input type="text" data-k="loc"></label>
+<h2>Hashtag dan akun</h2>
+<label class="f">Hashtag<input type="text" data-k="tag"></label>
+<label class="f">Tag akun 1<input type="text" data-k="a1" placeholder="@akun_yang_mau_ditag"></label>
+<label class="f">Tag akun 2<input type="text" data-k="a2" placeholder="@akun_yang_mau_ditag"></label>
+<label class="f">Tag akun 3<input type="text" data-k="a3" placeholder="@akun_yang_mau_ditag"></label>
+<h2>Logo dan foto</h2>
+<div id="ups"></div>
+<label class="f">Posisi foto (atas ke bawah)<input type="range" id="py" min="0" max="100" value="50" style="width:100%"></label>
+<button class="dl" id="dl">Unduh poster (PNG)</button>
+</div>
+<div><div class="stage" id="stage"><div id="poster"></div></div></div>
+</div>
+<script>
+const S={type:'result',theme:'light',event:'Friendly Scrimmage',me:'Club Kamu',foe:'Club Lawan',sm:'00',sf:'00',date:'Sabtu, 24 Oktober 2026',loc:'GOR Sekolah',tag:'#BasketSekolah',a1:'@basket.sekolah',a2:'@basket.lawan',a3:'@club9.basket',time:'15.30 WIB',py:50,img:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem('pb')||'{}'),{img:{}})}catch(e){}
+const T={light:{base:'#DAD6D1',f:'255,255,255',text:'#6E1423',acc:'#C2410C',acc2:'#FFB37A',deep:'#6E1423',slab:'rgba(255,227,204,.9)',stext:'#6E1423',mut:'#4A4743',tag:'#FFFFFF',line:'#CFCAC4',ring:'#6E1423'},
+dark:{base:'#263248',f:'10,15,26',text:'#F4F1EA',acc:'#FF6A1A',acc2:'#FFB37A',deep:'#8B1A2B',slab:'rgba(10,15,26,.85)',stext:'#F4F1EA',mut:'#C3CAD6',tag:'#0A0F1A',line:'#3A465C',ring:'#F4F1EA'}};
+const UP=[['sch','Logo sekolah'],['me','Logo club kamu'],['evt','Logo event'],['oth','Logo lainnya'],['foe','Logo lawan'],['photo','Foto kegiatan'],['sp1','Logo sponsor 1'],['sp2','Logo sponsor 2'],['sp3','Logo sponsor 3']];
+const $=s=>document.querySelector(s),P=$('#poster');
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slot=(k,l)=>{const u=S.img[k];return `<div class="slot ${u?'fl':'empty'}"${u?` style="background-image:url('${u}')"`:''}>${u?'':l}</div>`};
+const at=(t,c)=>{t=String(t).trim();return t&&t[0]!==c?c+t:t};
+const tags=()=>[S.a1,S.a2,S.a3].map(v=>at(v,'@')).filter(Boolean).map(v=>`<div class="ac">${esc(v)}</div>`).join('');
+function render(){
+const m=S.type==='matchday',t=T[S.theme];
+for(const k in t)P.style.setProperty('--'+k,t[k]);P.classList.toggle('md',m);
+const ph=S.img.photo,nosp=!S.img.sp1&&!S.img.sp2&&!S.img.sp3;
+const mid=m?`<div class="vs sc" style="height:150px;font-family:Anton,sans-serif">VS</div>`:`<div class="sc"><em>${esc(S.sm)}</em><s></s><span class="o">${esc(S.sf)}</span></div>`;
+P.innerHTML=`<div class="ph" style="${ph?`background-image:url('${plate()}');`:''}"></div>${ph?'':'<div class="fd"></div>'}
+<div class="bar t"><i style="flex:3;background:var(--deep)"></i><i style="flex:2;background:var(--acc)"></i><i style="flex:1;background:var(--acc2)"></i></div>
+<div class="bar b"><i style="flex:3;background:var(--deep)"></i><i style="flex:2;background:var(--acc)"></i><i style="flex:1;background:var(--acc2)"></i></div>
+<div class="in">
+<div class="logos">${slot('sch','LOGO<br>SEKOLAH')}${slot('me','LOGO<br>CLUB')}${slot('evt','LOGO<br>EVENT')}${slot('oth','LOGO<br>LAINNYA')}</div>
+<div class="hd"><div class="ti">${m?'Matchday':'Match Result'}</div><div class="ev">${esc(S.event)}</div></div>
+<div class="pz">${ph?'':'<div class="hint">FOTO KEGIATAN</div>'}</div>
+<div class="mid"><u></u><div class="tag"><b>${m?'Tip Off':'Fulltime'}</b></div><u></u></div>
+<div class="slab"><div class="tm">${slot('me','LOGO<br>CLUB KAMU')}<div class="nm">${esc(S.me)}</div></div>${mid}<div class="tm r">${slot('foe','LOGO<br>LAWAN')}<div class="nm">${esc(S.foe)}</div></div></div>
+${m?`<div class="info"><div style="flex:1.35"><small>TANGGAL</small><b>${esc(S.date)}</b></div><div style="flex:.8"><small>JAM</small><b>${esc(S.time)}</b></div><div style="flex:1.1"><small>LOKASI</small><b>${esc(S.loc)}</b></div></div>`:`<div class="meta">${esc(S.date)} · ${esc(S.loc)}</div>`}
+<div class="soc"><div class="ht${S.tag.trim()?'':' empty'}">${esc(at(S.tag,'#'))}</div><div class="acs">${tags()}</div></div>
+<div class="sp${nosp?' nosp':''}"><span>SPONSORED BY</span>${slot('sp1','LOGO SPONSOR')}${slot('sp2','LOGO SPONSOR')}${slot('sp3','LOGO SPONSOR')}</div>
+</div>`;
+$('#app').className='app '+S.type;
+document.querySelectorAll('#segType button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.type));
+document.querySelectorAll('#segTheme button').forEach(b=>b.classList.toggle('on',b.dataset.v===S.theme));
+UP.forEach(([k])=>{const e=$('#ok_'+k);if(e)e.textContent=S.img[k]?'Terpasang':''});
+const {img,pel,...rest}=S;try{localStorage.setItem('pb',JSON.stringify(rest))}catch(e){}
+}
+function readImg(f,max,mime){return new Promise(r=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);const u=c.toDataURL(mime,.9),i2=new Image();i2.onload=()=>r([u,i2]);i2.src=u};im.src=fr.result};fr.readAsDataURL(f)})}
+let pk='',pu='';
+function plate(){
+const key=S.py+'|'+S.theme+'|'+S.pid;if(key===pk)return pu;
+const W=1080,H=1350,mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c},c=mk(W,H),x=c.getContext('2d'),im=S.pel;
+const k=Math.max(W/im.width,H/im.height),dw=im.width*k,dh=im.height*k;
+x.drawImage(im,(W-dw)/2,(H-dh)*S.py/100,dw,dh);
+const m1=mk(270,338);m1.getContext('2d').drawImage(c,0,0,270,338);
+const m2=mk(70,88);m2.getContext('2d').drawImage(m1,0,0,70,88);
+const b=mk(W,H),y=b.getContext('2d');y.imageSmoothingQuality='high';y.drawImage(m2,0,0,W,H);
+const g=(ctx,st)=>{const l=ctx.createLinearGradient(0,0,0,H);st.forEach(([p,a])=>l.addColorStop(p,a));return l};
+y.globalCompositeOperation='destination-in';
+y.fillStyle=g(y,[[0,'rgba(0,0,0,1)'],[.28,'rgba(0,0,0,.6)'],[.38,'rgba(0,0,0,0)'],[.52,'rgba(0,0,0,0)'],[.7,'rgba(0,0,0,.8)'],[.86,'rgba(0,0,0,1)'],[1,'rgba(0,0,0,1)']]);y.fillRect(0,0,W,H);
+x.drawImage(b,0,0);
+const f=T[S.theme].f;
+x.fillStyle=g(x,[[0,`rgba(${f},.9)`],[.16,`rgba(${f},.75)`],[.28,`rgba(${f},.25)`],[.36,`rgba(${f},0)`],[.52,`rgba(${f},0)`],[.66,`rgba(${f},.55)`],[.76,`rgba(${f},.88)`],[1,`rgb(${f})`]]);x.fillRect(0,0,W,H);
+pk=key;pu=c.toDataURL('image/jpeg',.9);return pu}
+function fit(){const k=Math.min(1,$('#stage').clientWidth/1080);P.style.transform=`scale(${k})`;$('#stage').style.height=1350*k+'px'}
+$('#ups').innerHTML=UP.map(([k,l])=>`<div class="up"><span>${l} <b class="ok" id="ok_${k}"></b></span><label class="b">Pilih<input type="file" accept="image/*" data-u="${k}"></label><button class="b" data-x="${k}" type="button">Hapus</button></div>`).join('');
+document.querySelectorAll('[data-k]').forEach(i=>{i.value=S[i.dataset.k];i.addEventListener('input',()=>{S[i.dataset.k]=i.value;render()})});
+document.querySelectorAll('[data-u]').forEach(i=>i.addEventListener('change',async()=>{const f=i.files[0],k=i.dataset.u;if(!f)return;const ph=k==='photo',[u,el]=await readImg(f,ph?1800:500,ph?'image/jpeg':'image/png');S.img[k]=u;if(ph){S.pel=el;S.pid=(S.pid||0)+1}render()}));
+document.querySelectorAll('[data-x]').forEach(b=>b.addEventListener('click',()=>{delete S.img[b.dataset.x];if(b.dataset.x==='photo')delete S.pel;document.querySelector(`[data-u=${b.dataset.x}]`).value='';render()}));
+$('#segType').onclick=e=>{if(e.target.dataset.v){S.type=e.target.dataset.v;render()}};
+$('#segTheme').onclick=e=>{if(e.target.dataset.v){S.theme=e.target.dataset.v;render()}};
+$('#py').value=S.py;$('#py').oninput=e=>{S.py=e.target.value;render()};
+$('#dl').onclick=async()=>{const b=$('#dl');b.disabled=true;b.textContent='Memproses…';
+try{await document.fonts.ready;
+const c=await html2canvas(P,{scale:1,width:1080,height:1350,backgroundColor:null,useCORS:true,onclone:d=>{const p=d.getElementById('poster');p.style.transform='none';p.classList.add('exporting');p.parentElement.style.cssText='width:1080px;height:1350px;overflow:visible'}});
+const a=document.createElement('a');a.download='poster-'+S.type+'.png';a.href=c.toDataURL('image/png');a.click()}
+catch(e){alert('Gagal membuat gambar. Coba lagi.')}
+b.disabled=false;b.textContent='Unduh poster (PNG)'};
+addEventListener('resize',fit);render();fit();
+</script>
+</body>
+</html>
